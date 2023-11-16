@@ -1,12 +1,12 @@
-// import React from "react";
-// import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
-// const App = () => {
-//   return (
-// <Routes>
+const App = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+    </Routes>
+  );
+};
 
-// </Routes>
-//   )
-// }
-
-// export default App
+export default App;
