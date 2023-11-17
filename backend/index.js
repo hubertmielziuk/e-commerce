@@ -2,8 +2,8 @@ import express, { request, response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import productRouter from "./routes/productRoute.js";
-// import userRouter from "./routes/userRoute.js";
+import * as productRoute from "./routes/productRoute.js";
+import userRouter from "./routes/userRoute.js";
 // const productRouter = require("./routes/productRoute.js");
 
 dotenv.config();
@@ -19,8 +19,8 @@ app.get("/", (request, response) => {
     .send("This port is a server for my e-commerce app");
 });
 
-app.use("/products", productRouter);
-// app.use("/users", userRouter);
+app.use(productRoute.productRouter);
+app.use(userRouter);
 
 mongoose
   .connect(process.env.MONGODB_URI)

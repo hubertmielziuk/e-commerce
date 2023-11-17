@@ -1,23 +1,9 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const userModel_1 = __importDefault(require("../models/userModel"));
-const userRouter = express_1.default.Router();
-userRouter.get("/users", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+import express from "express";
+import UserModel from "../models/userModel.js";
+const userRouter = express.Router();
+userRouter.get("/users", async (req, res) => {
     try {
-        const users = yield userModel_1.default.find();
+        const users = await UserModel.find();
         res.json(users);
     }
     catch (error) {
@@ -26,11 +12,11 @@ userRouter.get("/users", (req, res) => __awaiter(void 0, void 0, void 0, functio
             .status(500)
             .json({ message: "Internal server error", error: error.message });
     }
-}));
-userRouter.get("/users/:userid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+userRouter.get("/users/:userid", async (req, res) => {
     const { userid } = req.params;
     try {
-        const user = yield userModel_1.default.findById(userid);
+        const user = await UserModel.findById(userid);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -42,8 +28,8 @@ userRouter.get("/users/:userid", (req, res) => __awaiter(void 0, void 0, void 0,
             .status(500)
             .json({ message: "Internal server error", error: error.message });
     }
-}));
-userRouter.post("/users", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+userRouter.post("/users", async (req, res) => {
     try {
         if (!req.body.username || !req.body.email || !req.body.password) {
             return res.status(400).send({
@@ -55,7 +41,7 @@ userRouter.post("/users", (req, res) => __awaiter(void 0, void 0, void 0, functi
             email: req.body.email,
             password: req.body.password,
         };
-        const user = yield userModel_1.default.create(newUser);
+        const user = await UserModel.create(newUser);
         return res.status(201).send(user);
     }
     catch (error) {
@@ -64,8 +50,8 @@ userRouter.post("/users", (req, res) => __awaiter(void 0, void 0, void 0, functi
             .status(500)
             .send({ message: "Internal server error", error: error.message });
     }
-}));
-userRouter.put("/users/:userid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+userRouter.put("/users/:userid", async (req, res) => {
     try {
         if (!req.body.username || !req.body.email || !req.body.password) {
             return res.status(400).send({
@@ -73,7 +59,7 @@ userRouter.put("/users/:userid", (req, res) => __awaiter(void 0, void 0, void 0,
             });
         }
         const { userid } = req.params;
-        const result = yield userModel_1.default.findByIdAndUpdate(userid, req.body);
+        const result = await UserModel.findByIdAndUpdate(userid, req.body);
         if (!result) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -85,11 +71,11 @@ userRouter.put("/users/:userid", (req, res) => __awaiter(void 0, void 0, void 0,
             .status(500)
             .send({ message: "Internal server error", error: error.message });
     }
-}));
-userRouter.delete("/users/:userid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+userRouter.delete("/users/:userid", async (req, res) => {
     try {
         const { userid } = req.params;
-        const result = yield userModel_1.default.findByIdAndDelete(userid);
+        const result = await UserModel.findByIdAndDelete(userid);
         if (!result) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -101,5 +87,5 @@ userRouter.delete("/users/:userid", (req, res) => __awaiter(void 0, void 0, void
             .status(500)
             .send({ message: "Internal server error", error: error.message });
     }
-}));
-exports.default = userRouter;
+});
+export default userRouter;

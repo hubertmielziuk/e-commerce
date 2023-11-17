@@ -1,12 +1,12 @@
 import express from "express";
 import { Request, Response } from "express";
-import userModel from "../models/userModel";
+import UserModel from "../models/userModel.js";
 
 const userRouter = express.Router();
 
 userRouter.get("/users", async (req: Request, res: Response) => {
   try {
-    const users = await userModel.find();
+    const users = await UserModel.find();
     res.json(users);
   } catch (error: any) {
     console.error(error);
@@ -19,7 +19,7 @@ userRouter.get("/users", async (req: Request, res: Response) => {
 userRouter.get("/users/:userid", async (req: Request, res: Response) => {
   const { userid } = req.params;
   try {
-    const user = await userModel.findById(userid);
+    const user = await UserModel.findById(userid);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -46,7 +46,7 @@ userRouter.post("/users", async (req: Request, res: Response) => {
       password: req.body.password,
     };
 
-    const user = await userModel.create(newUser);
+    const user = await UserModel.create(newUser);
     return res.status(201).send(user);
   } catch (error: any) {
     console.error(error);
@@ -66,7 +66,7 @@ userRouter.put("/users/:userid", async (req: Request, res: Response) => {
 
     const { userid } = req.params;
 
-    const result = await userModel.findByIdAndUpdate(userid, req.body);
+    const result = await UserModel.findByIdAndUpdate(userid, req.body);
     if (!result) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -84,7 +84,7 @@ userRouter.delete("/users/:userid", async (req: Request, res: Response) => {
   try {
     const { userid } = req.params;
 
-    const result = await userModel.findByIdAndDelete(userid);
+    const result = await UserModel.findByIdAndDelete(userid);
 
     if (!result) {
       return res.status(404).json({ message: "User not found" });
