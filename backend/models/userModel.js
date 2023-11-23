@@ -16,8 +16,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    firstName: String,
-    lastName: String,
+    firstName: {
+        type: String,
+        required: false,
+    },
+    lastName: {
+        type: String,
+        required: false,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

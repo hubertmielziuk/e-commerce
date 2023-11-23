@@ -30,7 +30,7 @@ const ShowProduct = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [product]);
 
   return (
     <div className="p-4">

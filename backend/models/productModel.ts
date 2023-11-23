@@ -15,13 +15,22 @@ const productSchema = new mongoose.Schema<IProduct>({
     required: true,
     trim: true,
   },
-  description: String,
+  description: {
+    type: String,
+    required: false,
+  },
   price: {
     type: Number,
     required: true,
   },
-  category: String,
-  image: String,
+  category: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
