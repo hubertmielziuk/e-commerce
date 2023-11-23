@@ -5,16 +5,16 @@ import BackButton from "../../components/BackButton.jsx";
 import Spinner from "../../components/Spinner.jsx";
 
 interface IProduct {
-    _id: string,
-    name: string;
-    description?: string;
-    price: number;
-    category: string;
-    image: string;
-    createdAt: Date;
-  }
+  _id: string;
+  name: string;
+  description?: string;
+  price: number;
+  category: string;
+  image: string;
+  createdAt: Date;
+}
 
-const showProduct = () => {
+const ShowProduct = () => {
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -75,4 +75,4 @@ const showProduct = () => {
   );
 };
 
-export default showProduct;
+export default ShowProduct;

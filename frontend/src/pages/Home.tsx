@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
+import { MdOutlineAddBox } from "react-icons/md";
 
 interface IProduct {
   _id: string;
@@ -22,18 +23,20 @@ const Home = () => {
       .get("http://localhost:3333/products")
       .then((response) => {
         setProducts(response.data);
-        // response.data.data?
         setLoading(false);
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [products]);
 
   return (
     <div>
       <h1>Welcome to Our Store</h1>
+      <Link to="/products/create">
+        <MdOutlineAddBox></MdOutlineAddBox>
+      </Link>
       {loading ? (
         <div>
           <Spinner />
@@ -47,7 +50,7 @@ const Home = () => {
               <h2>{product.name}</h2>
               <p>{product.description}</p>
               <p>{product.price}</p>
-              <Link to={`/products/${product._id}`}> View Details</Link>
+              <Link to={`/products/${product._id}`}>View Details</Link>
             </div>
           ))}
         </div>
