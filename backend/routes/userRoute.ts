@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import UserModel from "../models/userModel.js";
+import bcrypt from "bcrypt";
 
 const userRouter = express.Router();
 
@@ -40,10 +41,12 @@ userRouter.post("/users", async (req: Request, res: Response) => {
       });
     }
 
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
     const newUser = {
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
     };
@@ -57,6 +60,45 @@ userRouter.post("/users", async (req: Request, res: Response) => {
       .send({ message: "Internal server error", error: error.message });
   }
 });
+
+userRouter.patch(
+  "/users/:userid/change-password",
+  async (req: Request, res: Response) => {
+    try {
+      const { userid } = req.params;
+      const { currentPassword, newPassword } = req.body;
+
+      const user = await UserModel.findById(userid);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const passwordMatch = await bcrypt.compare(
+        currentPassword,
+        user.password
+      );
+
+      if (!passwordMatch) {
+        return res
+          .status(404)
+          .json({ message: "Current password is incorrect" });
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+      user.password = hashedNewPassword;
+      await user.save();
+
+      res.status(200).json({ message: "Password changed successfully" });
+    } catch (error: any) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
+  }
+);
 
 userRouter.put("/users/:userid", async (req: Request, res: Response) => {
   try {
