@@ -44,6 +44,8 @@ userRouter.post("/users", async (req: Request, res: Response) => {
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
     };
 
     const user = await UserModel.create(newUser);

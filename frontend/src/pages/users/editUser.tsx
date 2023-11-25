@@ -41,7 +41,7 @@ const EditUser = () => {
     };
     setLoading(true);
     axios
-      .put(`http://localhost:3333/products/${id}`, data)
+      .put(`http://localhost:3333/users/${id}`, data)
       .then(() => {
         setLoading(false);
         navigate("/");

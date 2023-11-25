@@ -40,6 +40,8 @@ userRouter.post("/users", async (req, res) => {
             username: req.body.username,
             email: req.body.email,
             password: req.body.password,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
         };
         const user = await UserModel.create(newUser);
         return res.status(201).send(user);

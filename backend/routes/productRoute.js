@@ -36,7 +36,10 @@ productRouter.post("/products", async (req, res) => {
         }
         const newProduct = {
             name: req.body.name,
+            description: req.body.description,
             price: req.body.price,
+            category: req.body.category,
+            image: req.body.image,
         };
         const product = await ProductModel.create(newProduct);
         return res.status(201).send(product);
