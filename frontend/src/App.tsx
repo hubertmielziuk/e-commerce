@@ -8,6 +8,7 @@ import ShowUser from "./pages/users/ShowUser";
 import EditUser from "./pages/users/EditUser";
 import DeleteUser from "./pages/users/DeleteUser";
 import CreateUser from "./pages/users/CreateUser";
+import ChangePassword from "./pages/users/ChangePassword";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
       <Route path="/users/details/:id" element={<ShowUser />} />
       <Route path="/users/delete/:id" element={<DeleteUser />} />
       <Route path="/users/create" element={<CreateUser />} />
+      <Route path="/users/:id/change-password" element={<ChangePassword />} />
     </Routes>
   );
 };

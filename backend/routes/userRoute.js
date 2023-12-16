@@ -55,18 +55,18 @@ userRouter.post("/users", async (req, res) => {
             .send({ message: "Internal server error", error: error.message });
     }
 });
-userRouter.patch("/users/:userid/change-password", async (req, res) => {
+userRouter.patch("/users/:id/change-password", async (req, res) => {
     try {
-        const { userid } = req.params;
+        const { id } = req.params;
         const { currentPassword, newPassword } = req.body;
-        const user = await UserModel.findById(userid);
+        const user = await UserModel.findById(id);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
         const passwordMatch = await bcrypt.compare(currentPassword, user.password);
         if (!passwordMatch) {
             return res
-                .status(404)
+                .status(401)
                 .json({ message: "Current password is incorrect" });
         }
         const hashedNewPassword = await bcrypt.hash(newPassword, 10);

@@ -62,13 +62,13 @@ userRouter.post("/users", async (req: Request, res: Response) => {
 });
 
 userRouter.patch(
-  "/users/:userid/change-password",
+  "/users/:id/change-password",
   async (req: Request, res: Response) => {
     try {
-      const { userid } = req.params;
+      const { id } = req.params;
       const { currentPassword, newPassword } = req.body;
 
-      const user = await UserModel.findById(userid);
+      const user = await UserModel.findById(id);
 
       if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -81,7 +81,7 @@ userRouter.patch(
 
       if (!passwordMatch) {
         return res
-          .status(404)
+          .status(401)
           .json({ message: "Current password is incorrect" });
       }
 
